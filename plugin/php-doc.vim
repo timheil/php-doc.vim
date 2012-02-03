@@ -79,6 +79,7 @@
 "
 " Version 1.1.4 (fork by tqmz)
 " * tailing spaces removed in generated comment lines
+" * author line at method/function level removed again
 
 " After phpDoc standard
 let g:pdv_cfg_CommentHead = "/**"
@@ -86,7 +87,6 @@ let g:pdv_cfg_Comment1 = " * "
 let g:pdv_cfg_Commentn = " *"
 let g:pdv_cfg_CommentTail = " */"
 let g:pdv_cfg_CommentSingle = "//"
-let g:pdv_cfg_CommentEnd = "// }" . "}" . "}"
 
 " Default values
 let g:pdv_cfg_Type = "mixed"
