@@ -76,11 +76,14 @@
 " Version 1.1.3
 " * Cleared up a bit and removed folding markers that I don't use
 
+"
+" Version 1.1.4 (fork by tqmz)
+" * tailing spaces removed in generated comment lines
 
 " After phpDoc standard
 let g:pdv_cfg_CommentHead = "/**"
 let g:pdv_cfg_Comment1 = " * "
-let g:pdv_cfg_Commentn = " * "
+let g:pdv_cfg_Commentn = " *"
 let g:pdv_cfg_CommentTail = " */"
 let g:pdv_cfg_CommentSingle = "//"
 let g:pdv_cfg_CommentEnd = "// }" . "}" . "}"
@@ -253,20 +256,19 @@ func! PhpDocFunc()
 		if l:paramtype != ""
 			let l:paramtype = " " . l:paramtype
 		endif
-		exe l:txtBOL . g:pdv_cfg_Commentn . "@param" . l:paramtype . " $" . l:paramname . " " . g:pdv_cfg_EOL
+		exe l:txtBOL . g:pdv_cfg_Commentn . " @param" . l:paramtype . " $" . l:paramname . g:pdv_cfg_EOL
 	endwhile
 
 	if l:static != ""
-		exe l:txtBOL . g:pdv_cfg_Commentn . "@static" . g:pdv_cfg_EOL
+		exe l:txtBOL . g:pdv_cfg_Commentn . " @static" . g:pdv_cfg_EOL
 	endif
 	if l:abstract != ""
-		exe l:txtBOL . g:pdv_cfg_Commentn . "@abstract" . g:pdv_cfg_EOL
+		exe l:txtBOL . g:pdv_cfg_Commentn . " @abstract" . g:pdv_cfg_EOL
 	endif
 	if l:final != ""
-		exe l:txtBOL . g:pdv_cfg_Commentn . "@final" . g:pdv_cfg_EOL
+		exe l:txtBOL . g:pdv_cfg_Commentn . " @final" . g:pdv_cfg_EOL
 	endif
-	exe l:txtBOL . g:pdv_cfg_Commentn . "@return " . g:pdv_cfg_ReturnVal . g:pdv_cfg_EOL
-	exe l:txtBOL . g:pdv_cfg_Commentn . "@author " . g:pdv_cfg_Author . g:pdv_cfg_EOL
+	exe l:txtBOL . g:pdv_cfg_Commentn . " @return " . g:pdv_cfg_ReturnVal . g:pdv_cfg_EOL
 
 	" Close the comment block.
 	exe l:txtBOL . g:pdv_cfg_CommentTail . g:pdv_cfg_EOL
@@ -305,9 +307,9 @@ func! PhpDocVar()
 	exe l:txtBOL . g:pdv_cfg_Comment1 . l:varname . " " . g:pdv_cfg_EOL
 	exe l:txtBOL . g:pdv_cfg_Commentn . g:pdv_cfg_EOL
 	if l:static != ""
-		exe l:txtBOL . g:pdv_cfg_Commentn . "@static" . g:pdv_cfg_EOL
+		exe l:txtBOL . g:pdv_cfg_Commentn . " @static" . g:pdv_cfg_EOL
 	endif
-	exe l:txtBOL . g:pdv_cfg_Commentn . "@var " . l:type . g:pdv_cfg_EOL
+	exe l:txtBOL . g:pdv_cfg_Commentn . " @var " . l:type . g:pdv_cfg_EOL
 	
 	" Close the comment block.
 	exe l:txtBOL . g:pdv_cfg_CommentTail . g:pdv_cfg_EOL
@@ -344,10 +346,10 @@ func! PhpDocClass()
 	let l:txtBOL = g:pdv_cfg_BOL . l:indent
 	
 	exe l:txtBOL . g:pdv_cfg_CommentHead . g:pdv_cfg_EOL
-	exe l:txtBOL . g:pdv_cfg_Comment1 . l:classname . " " . g:pdv_cfg_EOL
+	exe l:txtBOL . g:pdv_cfg_Comment1 . l:classname . g:pdv_cfg_EOL
 	exe l:txtBOL . g:pdv_cfg_Commentn . g:pdv_cfg_EOL
 	if l:extends != "" && l:extends != "implements"
-		exe l:txtBOL . g:pdv_cfg_Commentn . "@uses " . l:extends . g:pdv_cfg_EOL
+		exe l:txtBOL . g:pdv_cfg_Commentn . " @uses " . l:extends . g:pdv_cfg_EOL
 	endif
 
 	while (l:interfaces != ",") && (l:interfaces != "")
@@ -355,20 +357,20 @@ func! PhpDocClass()
 		let interface = substitute (l:interfaces, '\([^, ]*\) *, *\(.*\)', '\1', "")
 		" Remove this one from list
 		let l:interfaces = substitute (l:interfaces, '\([^, ]*\) *, *\(.*\)', '\2', "")
-		exe l:txtBOL . g:pdv_cfg_Commentn . "@uses " . l:interface . g:pdv_cfg_EOL
+		exe l:txtBOL . g:pdv_cfg_Commentn . " @uses " . l:interface . g:pdv_cfg_EOL
 	endwhile
 
 	if l:abstract != ""
-		exe l:txtBOL . g:pdv_cfg_Commentn . "@abstract" . g:pdv_cfg_EOL
+		exe l:txtBOL . g:pdv_cfg_Commentn . " @abstract" . g:pdv_cfg_EOL
 	endif
 	if l:final != ""
-		exe l:txtBOL . g:pdv_cfg_Commentn . "@final" . g:pdv_cfg_EOL
+		exe l:txtBOL . g:pdv_cfg_Commentn . " @final" . g:pdv_cfg_EOL
 	endif
-	exe l:txtBOL . g:pdv_cfg_Commentn . "@package " . g:pdv_cfg_Package . g:pdv_cfg_EOL
-	exe l:txtBOL . g:pdv_cfg_Commentn . "@version " . g:pdv_cfg_Version . g:pdv_cfg_EOL
-	exe l:txtBOL . g:pdv_cfg_Commentn . "@copyright " . g:pdv_cfg_Copyright . g:pdv_cfg_EOL
-	exe l:txtBOL . g:pdv_cfg_Commentn . "@author " . g:pdv_cfg_Author g:pdv_cfg_EOL
-	exe l:txtBOL . g:pdv_cfg_Commentn . "@license " . g:pdv_cfg_License . g:pdv_cfg_EOL
+	exe l:txtBOL . g:pdv_cfg_Commentn . " @package " . g:pdv_cfg_Package . g:pdv_cfg_EOL
+	exe l:txtBOL . g:pdv_cfg_Commentn . " @version " . g:pdv_cfg_Version . g:pdv_cfg_EOL
+	exe l:txtBOL . g:pdv_cfg_Commentn . " @copyright " . g:pdv_cfg_Copyright . g:pdv_cfg_EOL
+	exe l:txtBOL . g:pdv_cfg_Commentn . " @author " . g:pdv_cfg_Author g:pdv_cfg_EOL
+	exe l:txtBOL . g:pdv_cfg_Commentn . " @license " . g:pdv_cfg_License . g:pdv_cfg_EOL
 
 	" Close the comment block.
 	exe l:txtBOL . g:pdv_cfg_CommentTail . g:pdv_cfg_EOL
